@@ -1,8 +1,13 @@
 const config = {
   video: { width: 640, height: 480, fps: 30 },
 };
-let videoWidth, videoHeight, drawingContext;
+let videoWidth, videoHeight, drawingContext, canvas, gestureEstimator;
 let model;
+
+const gestureStrings = {
+  thumbs_up: '👍',
+  victory: '✌🏻',
+};
 
 const fingerLookupIndices = {
   thumb: [0, 1, 2, 3, 4],
@@ -119,8 +124,34 @@ async function continuouslyDetectLandmarks(video) {
       drawKeypoints(result, predictions[0].annotations);
     }
 
+    if (
+      predictions.length > 0 &&
+      Object.keys(predictions[0]).includes('landmarks')
+    ) {
+      const est = gestureEstimator.estimate(predictions[0].landmarks, 9);
+      if (est.gestures.length > 0) {
+        // Find gesture with highest match score
+        let result = est.gestures.reduce((p, c) => {
+          return p.score > c.score ? p : c;
+        });
+
+        if (result.score > 9.9) {
+          document.getElementById('gesture-text').textContent =
+            gestureStrings[result.name];
+        }
+      }
+    }
+
     requestAnimationFrame(runDetection);
   }
+
+  // Initialize gesture detection
+  const knownGestures = [
+    fp.Gestures.VictoryGesture,
+    fp.Gestures.ThumbsUpGesture,
+  ];
+
+  gestureEstimator = new fp.GestureEstimator(knownGestures);
 
   model = await handpose.load();
   runDetection();
