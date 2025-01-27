@@ -1,13 +1,15 @@
-## Gesture Detection Using Tensorflow.js
+![gesture-recognition-tensorflowjs-1080 png](https://github.com/user-attachments/assets/93140d05-29dd-49b3-bc20-d8119df11c14)
 
-This repo contains a sample project that shows you how you can integrate [Tensorflow.js](https://www.tensorflow.org/js) into a vanilla web project. It leverages the [handpose](https://www.npmjs.com/package/@tensorflow-models/handpose)  package to visualize hand structure and the [fingerpose](https://www.npmjs.com/package/fingerpose) package to detect gestures.
+# Gesture Detection Using Tensorflow.js
 
-We also demonstrate how to add custom gestures that we define on our own.
+This repo contains a sample project showing you how to integrate [Tensorflow.js](https://www.tensorflow.org/js) into a vanilla web project. It leverages the [handpose](https://www.npmjs.com/package/@tensorflow-models/handpose)  package to visualize hand structure and the [fingerpose](https://www.npmjs.com/package/fingerpose) package to detect gestures.
+
+We also demonstrate how to add custom gestures that we define independently.
 
 If you want a more thorough explanation, check out:
 
 - [the blog post](https://getstream.io/blog/tensorflow-gesture-recognition)
-- [the Youtube tutorial]()
+- [the Youtube tutorial](https://youtu.be/pON_ftmsR40)
 
 ## Usage
 
