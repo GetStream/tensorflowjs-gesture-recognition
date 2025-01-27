@@ -7,6 +7,7 @@ let model;
 const gestureStrings = {
   thumbs_up: '👍',
   victory: '✌🏻',
+  thumbs_down: '👎',
 };
 
 const fingerLookupIndices = {
@@ -25,6 +26,39 @@ const landmarkColors = {
   pinky: 'pink',
   palmBase: 'white',
 };
+
+function createThumbsDownGesture() {
+  const thumbsDown = new fp.GestureDescription('thumbs_down');
+
+  thumbsDown.addCurl(fp.Finger.Thumb, fp.FingerCurl.NoCurl);
+  thumbsDown.addDirection(
+    fp.Finger.Thumb,
+    fp.FingerDirection.VerticalDown,
+    1.0
+  );
+  thumbsDown.addDirection(
+    fp.Finger.Thumb,
+    fp.FingerDirection.DiagonalDownLeft,
+    0.9
+  );
+  thumbsDown.addDirection(
+    fp.Finger.Thumb,
+    fp.FingerDirection.DiagonalDownRight,
+    0.9
+  );
+
+  for (let finger of [
+    fp.Finger.Index,
+    fp.Finger.Middle,
+    fp.Finger.Ring,
+    fp.Finger.Pinky,
+  ]) {
+    thumbsDown.addCurl(finger, fp.FingerCurl.FullCurl, 0.9);
+    thumbsDown.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
+  }
+
+  return thumbsDown;
+}
 
 function drawKeypoints(keypoints) {
   for (let i = 0; i < keypoints.length; i++) {
@@ -149,6 +183,7 @@ async function continuouslyDetectLandmarks(video) {
   const knownGestures = [
     fp.Gestures.VictoryGesture,
     fp.Gestures.ThumbsUpGesture,
+    createThumbsDownGesture(),
   ];
 
   gestureEstimator = new fp.GestureEstimator(knownGestures);
